@@ -1,6 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+    --font-title: "Poppins", sans-serif;
+}
 
 body {
     background-color: #bf5bec;

@@ -1,55 +1,58 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import Button from './Button.jsx';
-import Input from './Input.jsx';
+import Button from "./Button.jsx";
+import Input from "./Input.jsx";
 
 export default function AuthInputs() {
-    const [enteredEmail, setEnteredEmail] = useState('');
-    const [enteredPassword, setEnteredPassword] = useState('');
-    const [submitted, setSubmitted] = useState(false);
+  const [enteredEmail, setEnteredEmail] = useState("");
+  const [enteredPassword, setEnteredPassword] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
-    function handleInputChange(identifier, value) {
-        if (identifier === 'email') {
-            setEnteredEmail(value);
-        } else {
-            setEnteredPassword(value);
-        }
+  function handleInputChange(identifier, value) {
+    if (identifier === "email") {
+      setEnteredEmail(value);
+    } else {
+      setEnteredPassword(value);
     }
+  }
 
-    function handleLogin() {
-        setSubmitted(true);
-    }
+  function handleLogin() {
+    setSubmitted(true);
+  }
 
-    const emailNotValid = submitted && !enteredEmail.includes('@');
-    const passwordNotValid = submitted && enteredPassword.trim().length < 6;
+  const emailNotValid = submitted && !enteredEmail.includes("@");
+  const passwordNotValid = submitted && enteredPassword.trim().length < 6;
 
-    return (
-        <div
-            id="auth-inputs"
-            className="w-full max-w-sm p-8 mx-auto rounded-xl shadow-xl bg-slate-800 border border-slate-700"
+  return (
+    <div
+      id="auth-inputs"
+      className="w-full max-w-sm p-8 mx-auto rounded-xl shadow-xl bg-slate-800 border border-slate-700"
+    >
+      <div className="flex flex-col gap-2 mb-6">
+        <Input
+          label="Email"
+          invalid={emailNotValid}
+          type="email"
+          onChange={(event) => handleInputChange("email", event.target.value)}
+        />
+        <Input
+          invalid={passwordNotValid}
+          label="Password"
+          type="password"
+          onChange={(event) =>
+            handleInputChange("password", event.target.value)
+          }
+        />
+      </div>
+      <div className="flex justify-end gap-4">
+        <button
+          type="button"
+          className="text-cyan-400 hover:text-cyan-300 transition-colors"
         >
-            <div className="flex flex-col gap-2 mb-6">
-                <Input
-                    label="Email"
-                    invalid={emailNotValid}
-                    type="email"
-                    onChange={(event) => handleInputChange('email', event.target.value)}
-                />
-                <Input
-                    invalid={passwordNotValid}
-                    label="Password"
-                    type="password"
-                    onChange={(event) =>
-                        handleInputChange('password', event.target.value)
-                    }
-                />
-            </div>
-            <div className="flex justify-end gap-4">
-                <button type="button" className="text-cyan-400 hover:text-cyan-300 transition-colors">
-                    Create a new account
-                </button>
-                <Button onClick={handleLogin}>Sign In</Button>
-            </div>
-        </div>
-    );
+          Create a new account
+        </button>
+        <Button onClick={handleLogin}>Sign In</Button>
+      </div>
+    </div>
+  );
 }
