@@ -4,8 +4,8 @@ import { decrement, increase, increment, toggleCounter } from '../store/counter'
 
 const Counter = () => {
 
-  const counter = useSelector(state => state.counter.counter);
   const dispatch = useDispatch();
+  const counter = useSelector(state => state.counter.counter);
   const showCounter = useSelector(state => state.counter.showCounter);
 
   const toggleCounterHandler = () => {
