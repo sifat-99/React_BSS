@@ -28,11 +28,15 @@ import NewEventPage from "./pages/NewEventPage";
 import EditEventPage from "./pages/EditEventPage";
 import RootLayout from "./layout/Rootlayout";
 import EventsRootLayout from "./layout/EventsRootLayout";
+import ErrorPage from "./pages/Error";
+import { loader as eventLoader, action as deleteEventAction } from "./pages/EventDetailsPage";
+import { action as manipulateEventAction } from "./pages/NewEventPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <ErrorPage />,
     children: [
       // { path: '/', element: <HomePage /> },
       // { path: '/events', element: <EventsPage /> },
@@ -44,10 +48,28 @@ const router = createBrowserRouter([
         path: "events",
         element: <EventsRootLayout />,
         children: [
-          { index: true, element: <EventsPage /> },
-          { path: ':eventId', element: <EventDetailPage /> },
-          { path: 'new', element: <NewEventPage /> },
-          { path: ':eventId/edit', element: <EditEventPage /> }
+          {
+            index: true, element: <EventsPage />, loader: async () => {
+              const response = await fetch('http://localhost:8080/events');
+              if (!response.ok) {
+                throw new Response(JSON.stringify({ message: 'Failed to fetch events' }), { status: 500 })
+                // return json()
+              } else {
+                const resData = await response.json();
+                return resData.events;
+              }
+            }
+          },
+          {
+            path: ':eventId',
+            id: 'event-detail',
+            loader: eventLoader,
+            children: [
+              { index: true, element: <EventDetailPage />, action: deleteEventAction },
+              { path: 'edit', element: <EditEventPage />, action: manipulateEventAction }
+            ]
+          },
+          { path: 'new', element: <NewEventPage />, action: manipulateEventAction },
         ]
       }
     ]

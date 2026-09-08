@@ -1,11 +1,36 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useRouteLoaderData, redirect } from 'react-router-dom'
+import EventItem from '../components/EventItem';
 
 const EventDetailsPage = () => {
-    const params = useParams();
+    const event = useRouteLoaderData('event-detail')
     return (
-        <div>EventDetailsPage - {params.eventId}</div>
+        <EventItem event={event}></EventItem>
     )
 }
 
 export default EventDetailsPage
+
+
+export async function loader({ request, params }) {
+    const response = await fetch('http://localhost:8080/events/' + params.eventId);
+    if (!response.ok) {
+        throw new Response(JSON.stringify({ message: 'Failed to fetch events' }), { status: 500 })
+    } else {
+        const resData = await response.json();
+        console.log(resData)
+        return resData.event;
+    }
+}
+
+
+export async function action({ request, params }) {
+    const eventId = params.eventId
+    const response = await fetch('http://localhost:8080/events/' + eventId, {
+        method: request.method,
+    })
+    if (!response.ok) {
+        throw new Response(JSON.stringify({ message: 'Failed to delete event' }), { status: 500 })
+    }
+    return redirect('/events')
+}
