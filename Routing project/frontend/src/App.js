@@ -22,7 +22,7 @@
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import EventsPage from "./pages/EventPage";
+import EventsPage, { loadEvents } from "./pages/EventPage";
 import EventDetailPage from "./pages/EventDetailsPage";
 import NewEventPage from "./pages/NewEventPage";
 import EditEventPage from "./pages/EditEventPage";
@@ -31,6 +31,9 @@ import EventsRootLayout from "./layout/EventsRootLayout";
 import ErrorPage from "./pages/Error";
 import { loader as eventLoader, action as deleteEventAction } from "./pages/EventDetailsPage";
 import { action as manipulateEventAction } from "./pages/NewEventPage";
+import NewsletterPage from "./pages/Newsletter";
+
+import { action as newsletterAction } from "./pages/Newsletter";
 
 const router = createBrowserRouter([
   {
@@ -49,16 +52,7 @@ const router = createBrowserRouter([
         element: <EventsRootLayout />,
         children: [
           {
-            index: true, element: <EventsPage />, loader: async () => {
-              const response = await fetch('http://localhost:8080/events');
-              if (!response.ok) {
-                throw new Response(JSON.stringify({ message: 'Failed to fetch events' }), { status: 500 })
-                // return json()
-              } else {
-                const resData = await response.json();
-                return resData.events;
-              }
-            }
+            index: true, element: <EventsPage />, loader: loadEvents
           },
           {
             path: ':eventId',
@@ -71,7 +65,12 @@ const router = createBrowserRouter([
           },
           { path: 'new', element: <NewEventPage />, action: manipulateEventAction },
         ]
-      }
+      },
+      {
+        path: 'newsletter',
+        element: <NewsletterPage />,
+        action: newsletterAction,
+      },
     ]
   }
 ]);
