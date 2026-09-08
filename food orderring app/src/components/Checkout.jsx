@@ -37,7 +37,7 @@ export default function Checkout() {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:3000/orders", {
+      const response = await fetch("https://food-orderring-gaxhatwae-sifats-projects-c0b91c2d.vercel.app/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

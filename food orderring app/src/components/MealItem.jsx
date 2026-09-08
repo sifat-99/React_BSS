@@ -14,7 +14,7 @@ export default function MealItem({ meal }) {
     <li className="bg-surface rounded-2xl overflow-hidden text-center shadow-[0_1px_6px_rgba(0,0,0,0.3)]">
       <article className="h-full flex flex-col justify-between">
         <img
-          src={`http://localhost:3000/${meal.image}`}
+          src={`https://food-orderring-gaxhatwae-sifats-projects-c0b91c2d.vercel.app/${meal.image}`}
           alt={meal.name}
           className="w-full h-[20rem] object-cover"
         />

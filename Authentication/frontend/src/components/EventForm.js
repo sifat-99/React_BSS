@@ -95,11 +95,11 @@ export async function action({ request, params }) {
     description: data.get('description'),
   };
 
-  let url = 'http://localhost:8080/events';
+  let url = 'https://authentication-backend-1nttvyx5j-sifats-projects-c0b91c2d.vercel.app/events';
 
   if (method === 'PATCH') {
     const eventId = params.eventId;
-    url = 'http://localhost:8080/events/' + eventId;
+    url = 'https://authentication-backend-1nttvyx5j-sifats-projects-c0b91c2d.vercel.app/events/' + eventId;
   }
 
   const token = getAuthToken();

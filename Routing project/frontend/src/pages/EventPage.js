@@ -16,7 +16,7 @@ function EventsPage() {
 }
 
 export async function loadEvents() {
-    const response = await fetch('http://localhost:8080/events');
+    const response = await fetch('https://routing-project-backend-ahmx0fkvn-sifats-projects-c0b91c2d.vercel.app/events');
     if (!response.ok) {
         throw new Response(JSON.stringify({ message: 'Failed to fetch events' }), { status: 500 })
         // return json()

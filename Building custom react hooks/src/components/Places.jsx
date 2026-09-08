@@ -18,7 +18,7 @@ export default function Places({
             <li key={place.id} className="place-item">
               <button onClick={() => onSelectPlace(place)}>
                 <img
-                  src={`http://localhost:3000/${place.image.src}`}
+                  src={`https://building-custom-react-hooks-1lcp1sffw-sifats-projects-c0b91c2d.vercel.app/${place.image.src}`}
                   alt={place.image.alt}
                 />
                 <h3>{place.title}</h3>
