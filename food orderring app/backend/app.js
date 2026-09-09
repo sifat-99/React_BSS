@@ -1,3 +1,4 @@
+import path from 'path';
 import fs from 'node:fs/promises';
 
 import bodyParser from 'body-parser';
@@ -5,7 +6,7 @@ import express from 'express';
 
 const app = express();
 
-const ORDERS_FILE = process.env.NODE_ENV === 'production' ? '/tmp/orders.json' : './data/orders.json';
+const ORDERS_FILE = process.env.NODE_ENV === 'production' ? '/tmp/orders.json' : path.join(process.cwd(), 'data', 'orders.json');
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
@@ -21,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/meals', async (req, res) => {
-  const meals = await fs.readFile('./data/available-meals.json', 'utf8');
+  const meals = await fs.readFile(path.join(process.cwd(), 'data', 'available-meals.json'), 'utf8');
   res.json(JSON.parse(meals));
 });
 

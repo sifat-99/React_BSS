@@ -1,3 +1,4 @@
+import path from 'path';
 import fs from 'node:fs/promises';
 
 import bodyParser from 'body-parser';
@@ -5,14 +6,14 @@ import express from 'express';
 
 const app = express();
 
-const EVENTS_FILE = process.env.NODE_ENV === 'production' ? '/tmp/events.json' : './data/events.json';
+const EVENTS_FILE = process.env.NODE_ENV === 'production' ? '/tmp/events.json' : path.join(process.cwd(), 'data', 'events.json');
 async function readEvents() {
   try {
     const data = await fs.readFile(EVENTS_FILE, 'utf8');
     return JSON.parse(data);
   } catch (err) {
     if (process.env.NODE_ENV === 'production' && err.code === 'ENOENT') {
-      const defaultData = await fs.readFile('./data/events.json', 'utf8');
+      const defaultData = await fs.readFile(path.join(process.cwd(), 'data', 'events.json'), 'utf8');
       return JSON.parse(defaultData);
     }
     throw err;
@@ -63,7 +64,7 @@ app.get('/events', async (req, res) => {
 });
 
 app.get('/events/images', async (req, res) => {
-  const imagesFileContent = await fs.readFile('./data/images.json');
+  const imagesFileContent = await fs.readFile(path.join(process.cwd(), 'data', 'images.json'));
   const images = JSON.parse(imagesFileContent);
 
   res.json({ images });

@@ -3,7 +3,7 @@ const path = require('path');
 
 const FILE_PATH = process.env.NODE_ENV === 'production' 
   ? '/tmp/events.json' 
-  : path.join(__dirname, '..', 'events.json');
+  : path.join(process.cwd(), 'events.json');
 
 async function readData() {
   try {
@@ -12,7 +12,7 @@ async function readData() {
   } catch (err) {
     if (process.env.NODE_ENV === 'production' && err.code === 'ENOENT') {
        // if /tmp/events.json doesn't exist, read the default one
-       const defaultData = await fs.readFile(path.join(__dirname, '..', 'events.json'), 'utf8');
+       const defaultData = await fs.readFile(path.join(process.cwd(), 'events.json'), 'utf8');
        return JSON.parse(defaultData);
     }
     throw err;
