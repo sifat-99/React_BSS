@@ -5,13 +5,18 @@ import express from 'express';
 
 const app = express();
 
+const ORDERS_FILE = process.env.NODE_ENV === 'production' ? '/tmp/orders.json' : './data/orders.json';
+
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
   next();
 });
 
@@ -51,10 +56,10 @@ app.post('/orders', async (req, res) => {
     ...orderData,
     id: (Math.random() * 1000).toString(),
   };
-  const orders = await fs.readFile('./data/orders.json', 'utf8');
+  const orders = await fs.readFile(ORDERS_FILE, 'utf8');
   const allOrders = JSON.parse(orders);
   allOrders.push(newOrder);
-  await fs.writeFile('./data/orders.json', JSON.stringify(allOrders));
+  await fs.writeFile(ORDERS_FILE, JSON.stringify(allOrders));
   res.status(201).json({ message: 'Order created!' });
 });
 
@@ -66,4 +71,8 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
 });
 
-app.listen(3000);
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(3000);
+}
+
+export default app;

@@ -1,5 +1,4 @@
 {
-  "name": "authentication-backend",
   "version": 2,
   "builds": [
     {

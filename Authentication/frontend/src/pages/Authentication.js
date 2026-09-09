@@ -22,7 +22,7 @@ export async function action({ request }) {
     password: data.get('password'),
   };
 
-  const response = await fetch('https://authentication-backend-1nttvyx5j-sifats-projects-c0b91c2d.vercel.app/' + mode, {
+  const response = await fetch((process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080') + '/' + mode, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

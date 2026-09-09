@@ -1,5 +1,5 @@
 export async function fetchAvailablePlaces() {
-  const response = await fetch('https://building-custom-react-hooks-1lcp1sffw-sifats-projects-c0b91c2d.vercel.app/places');
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/places`);
   const resData = await response.json();
 
   if (!response.ok) {
@@ -10,7 +10,7 @@ export async function fetchAvailablePlaces() {
 }
 
 export async function fetchUserPlaces() {
-  const response = await fetch('https://building-custom-react-hooks-1lcp1sffw-sifats-projects-c0b91c2d.vercel.app/user-places');
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user-places`);
   const resData = await response.json();
 
   if (!response.ok) {
@@ -21,7 +21,7 @@ export async function fetchUserPlaces() {
 }
 
 export async function updateUserPlaces(places) {
-  const response = await fetch('https://building-custom-react-hooks-1lcp1sffw-sifats-projects-c0b91c2d.vercel.app/user-places', {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user-places`, {
     method: 'PUT',
     body: JSON.stringify({ places }),
     headers: {

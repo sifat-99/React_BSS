@@ -2,9 +2,20 @@ import fs from 'node:fs/promises';
 
 import express from 'express';
 
+const DB_FILE = process.env.NODE_ENV === 'production' ? '/tmp/db.json' : './db.json';
+
 async function loadOpinions() {
   try {
-    const dbFileData = await fs.readFile('./db.json');
+    let dbFileData;
+    try {
+      dbFileData = await fs.readFile(DB_FILE);
+    } catch (err) {
+      if (process.env.NODE_ENV === 'production' && err.code === 'ENOENT') {
+        dbFileData = await fs.readFile('./db.json');
+      } else {
+        throw err;
+      }
+    }
     const parsedData = JSON.parse(dbFileData);
     return parsedData.opinions;
   } catch (error) {
@@ -17,7 +28,7 @@ async function saveOpinion(opinion) {
   const newOpinion = { id: new Date().getTime(), votes: 0, ...opinion };
   opinions.unshift(newOpinion);
   const dataToSave = { opinions };
-  await fs.writeFile('./db.json', JSON.stringify(dataToSave, null, 2));
+  await fs.writeFile(DB_FILE, JSON.stringify(dataToSave, null, 2));
   return newOpinion;
 }
 
@@ -28,7 +39,7 @@ async function upvoteOpinion(id) {
     return null;
   }
   opinion.votes++;
-  await fs.writeFile('./db.json', JSON.stringify({ opinions }, null, 2));
+  await fs.writeFile(DB_FILE, JSON.stringify({ opinions }, null, 2));
   return opinion;
 }
 
@@ -39,7 +50,7 @@ async function downvoteOpinion(id) {
     return null;
   }
   opinion.votes--;
-  await fs.writeFile('./db.json', JSON.stringify({ opinions }, null, 2));
+  await fs.writeFile(DB_FILE, JSON.stringify({ opinions }, null, 2));
   return opinion;
 }
 
@@ -48,8 +59,11 @@ const app = express();
 // CORS
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
   next();
 });
 
@@ -111,6 +125,9 @@ app.post('/opinions/:id/downvote', async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log('Server running on http://localhost:3000');
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
+  });
+}
+export default app;

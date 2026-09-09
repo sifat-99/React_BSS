@@ -18,7 +18,7 @@ function EventsPage() {
 export default EventsPage;
 
 async function loadEvents() {
-  const response = await fetch('https://authentication-backend-1nttvyx5j-sifats-projects-c0b91c2d.vercel.app/events');
+  const response = await fetch((process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080') + '/events');
 
   if (!response.ok) {
     // return { isError: true, message: 'Could not fetch events.' };

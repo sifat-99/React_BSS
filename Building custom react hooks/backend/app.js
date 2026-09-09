@@ -5,6 +5,8 @@ import express from 'express';
 
 const app = express();
 
+const USER_PLACES_FILE = process.env.NODE_ENV === 'production' ? '/tmp/user-places.json' : './data/user-places.json';
+
 app.use(express.static('images'));
 app.use(bodyParser.json());
 
@@ -12,8 +14,11 @@ app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*'); // allow all domains
-  res.setHeader('Access-Control-Allow-Methods', 'GET, PUT');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
 
   next();
 });
@@ -27,7 +32,16 @@ app.get('/places', async (req, res) => {
 });
 
 app.get('/user-places', async (req, res) => {
-  const fileContent = await fs.readFile('./data/user-places.json');
+  let fileContent;
+  try {
+    fileContent = await fs.readFile(USER_PLACES_FILE);
+  } catch (err) {
+    if (process.env.NODE_ENV === 'production' && err.code === 'ENOENT') {
+      fileContent = await fs.readFile('./data/user-places.json');
+    } else {
+      throw err;
+    }
+  }
 
   const places = JSON.parse(fileContent);
 
@@ -37,7 +51,7 @@ app.get('/user-places', async (req, res) => {
 app.put('/user-places', async (req, res) => {
   const places = req.body.places;
 
-  await fs.writeFile('./data/user-places.json', JSON.stringify(places));
+  await fs.writeFile(USER_PLACES_FILE, JSON.stringify(places));
 
   res.status(200).json({ message: 'User places updated!' });
 });
@@ -50,4 +64,7 @@ app.use((req, res, next) => {
   res.status(404).json({ message: '404 - Not Found' });
 });
 
-app.listen(3000);
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(3000);
+}
+export default app;

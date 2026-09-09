@@ -1,12 +1,11 @@
 {
-  "name": "sending-http-request-backend",
   "version": 2,
   "builds": [
     {
       "src": "app.js",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["data/**", "images/**"]
+        "includeFiles": ["data/**", "*.json", "images/**"]
       }
     }
   ],

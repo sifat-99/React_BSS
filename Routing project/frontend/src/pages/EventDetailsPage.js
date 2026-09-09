@@ -13,7 +13,7 @@ export default EventDetailsPage
 
 
 export async function loader({ request, params }) {
-    const response = await fetch('https://routing-project-backend-ahmx0fkvn-sifats-projects-c0b91c2d.vercel.app/events/' + params.eventId);
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/events/` + params.eventId);
     if (!response.ok) {
         throw new Response(JSON.stringify({ message: 'Failed to fetch events' }), { status: 500 })
     } else {
@@ -26,7 +26,7 @@ export async function loader({ request, params }) {
 
 export async function action({ request, params }) {
     const eventId = params.eventId
-    const response = await fetch('https://routing-project-backend-ahmx0fkvn-sifats-projects-c0b91c2d.vercel.app/events/' + eventId, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/events/` + eventId, {
         method: request.method,
     })
     if (!response.ok) {

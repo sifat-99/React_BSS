@@ -21,9 +21,9 @@ export async function action({ request, params }) {
         date: data.get('date'),
         description: data.get('description')
     }
-    let url = 'https://routing-project-backend-ahmx0fkvn-sifats-projects-c0b91c2d.vercel.app/events'
+    let url = `${process.env.REACT_APP_BACKEND_URL}/events`
     if (method === 'PATCH') {
-        url = 'https://routing-project-backend-ahmx0fkvn-sifats-projects-c0b91c2d.vercel.app/events/' + params.eventId
+        url = `${process.env.REACT_APP_BACKEND_URL}/events/` + params.eventId
     }
 
     const response = await fetch(url, {

@@ -9,7 +9,7 @@ export default function Meals() {
     data: loadedMeals,
     isLoading,
     error,
-  } = useHttp("https://food-orderring-gaxhatwae-sifats-projects-c0b91c2d.vercel.app/meals", requestConfig, []);
+  } = useHttp(`${import.meta.env.VITE_BACKEND_URL}/meals`, requestConfig, []);
 
   // const [loadedMeals, setLoadedMeals] = useState([]);
   // const [isLoading, setIsLoading] = useState(true);
@@ -19,7 +19,7 @@ export default function Meals() {
   //   async function fetchMeals() {
   //     setIsLoading(true);
   //     try {
-  //       const response = await fetch("https://food-orderring-gaxhatwae-sifats-projects-c0b91c2d.vercel.app/meals");
+  //       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/meals`);
 
   //       if (!response.ok) {
   //         throw new Error("Failed to fetch meals");

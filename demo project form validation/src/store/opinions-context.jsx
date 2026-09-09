@@ -12,7 +12,7 @@ export function OpinionsContextProvider({ children }) {
 
   useEffect(() => {
     async function loadOpinions() {
-      const response = await fetch("https://demo-project-form-validation-kkuwxxikz-sifats-projects-c0b91c2d.vercel.app/opinions");
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/opinions`);
       const opinions = await response.json();
       setOpinions(opinions);
     }
@@ -21,7 +21,7 @@ export function OpinionsContextProvider({ children }) {
   }, []);
 
   async function addOpinion(enteredOpinionData) {
-    const response = await fetch("https://demo-project-form-validation-kkuwxxikz-sifats-projects-c0b91c2d.vercel.app/opinions", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/opinions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +38,7 @@ export function OpinionsContextProvider({ children }) {
   }
 
   async function upvoteOpinion(id) {
-    const res = await fetch(`https://demo-project-form-validation-kkuwxxikz-sifats-projects-c0b91c2d.vercel.app/opinions/${id}/upvote`, {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/opinions/${id}/upvote`, {
       method: "POST",
     });
     if (!res.ok) {
@@ -56,7 +56,7 @@ export function OpinionsContextProvider({ children }) {
   }
 
   async function downvoteOpinion(id) {
-    const res = await fetch(`https://demo-project-form-validation-kkuwxxikz-sifats-projects-c0b91c2d.vercel.app/opinions/${id}/downvote`, {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/opinions/${id}/downvote`, {
       method: "POST",
     });
 

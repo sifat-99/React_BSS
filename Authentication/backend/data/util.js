@@ -1,12 +1,26 @@
 const fs = require('node:fs/promises');
+const path = require('path');
+
+const FILE_PATH = process.env.NODE_ENV === 'production' 
+  ? '/tmp/events.json' 
+  : path.join(__dirname, '..', 'events.json');
 
 async function readData() {
-  const data = await fs.readFile('events.json', 'utf8');
-  return JSON.parse(data);
+  try {
+    const data = await fs.readFile(FILE_PATH, 'utf8');
+    return JSON.parse(data);
+  } catch (err) {
+    if (process.env.NODE_ENV === 'production' && err.code === 'ENOENT') {
+       // if /tmp/events.json doesn't exist, read the default one
+       const defaultData = await fs.readFile(path.join(__dirname, '..', 'events.json'), 'utf8');
+       return JSON.parse(defaultData);
+    }
+    throw err;
+  }
 }
 
 async function writeData(data) {
-  await fs.writeFile('events.json', JSON.stringify(data));
+  await fs.writeFile(FILE_PATH, JSON.stringify(data));
 }
 
 exports.readData = readData;

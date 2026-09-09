@@ -95,11 +95,11 @@ export async function action({ request, params }) {
     description: data.get('description'),
   };
 
-  let url = 'https://authentication-backend-1nttvyx5j-sifats-projects-c0b91c2d.vercel.app/events';
+  let url = (process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080') + '/events';
 
   if (method === 'PATCH') {
     const eventId = params.eventId;
-    url = 'https://authentication-backend-1nttvyx5j-sifats-projects-c0b91c2d.vercel.app/events/' + eventId;
+    url = (process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080') + '/events/' + eventId;
   }
 
   const token = getAuthToken();
