@@ -18,7 +18,7 @@ function EventsPage() {
 export default EventsPage;
 
 async function loadEvents() {
-  const response = await fetch((process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080') + '/events');
+  const response = await fetch((import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080') + '/events');
 
   if (!response.ok) {
     // return { isError: true, message: 'Could not fetch events.' };

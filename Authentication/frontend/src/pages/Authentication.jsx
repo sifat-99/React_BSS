@@ -22,7 +22,7 @@ export async function action({ request }) {
     password: data.get('password'),
   };
 
-  const response = await fetch((process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080') + '/' + mode, {
+  const response = await fetch((import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080') + '/' + mode, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
