@@ -64,7 +64,8 @@ app.use((req, res, next) => {
   res.status(404).json({ message: '404 - Not Found' });
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(3000);
-}
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
 export default app;
