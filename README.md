@@ -1,28 +1,29 @@
-Authentication Frontend: https://react-bss-1.onrender.com
-Building custom react hooks: https://react-bss-1frontend.onrender.com
-Component tree: https://component-tree-behind-the-scenes.onrender.com
+## Live Links
 
-demo project form validation-frontend: https://demo-project-form-validation-frontend.onrender.com
-Deploy: https://deploy-troh.onrender.com
-Multi Page- React Router: https://multi-page-react-router.onrender.com
-Food ordering app: https://food-orderring-app.onrender.com
-Quiz: https://quiz-qaho.onrender.com
-React challange: https://react-challange-2.onrender.com
-React Context api: https://react-context-api-zfhm.onrender.com
+Below is a complete list of all the projects and their live deployment links:
 
-React essential challange: https://react-essential-challange.onrender.com
+| Project Name                     | Live Demo                                                                  |
+| :------------------------------- | :------------------------------------------------------------------------- |
+| Authentication Frontend          | [View Project](https://react-bss-1.onrender.com)                           |
+| Building Custom React Hooks      | [View Project](https://react-bss-1frontend.onrender.com)                   |
+| Component Tree Behind the Scenes | [View Project](https://component-tree-behind-the-scenes.onrender.com)      |
+| Demo Project: Form Validation    | [View Project](https://demo-project-form-validation-frontend.onrender.com) |
+| Deploy Project                   | [View Project](https://deploy-troh.onrender.com)                           |
+| Multi-Page React Router          | [View Project](https://multi-page-react-router.onrender.com)               |
+| Food Ordering App                | [View Project](https://food-orderring-app.onrender.com)                    |
+| Quiz Application                 | [View Project](https://quiz-qaho.onrender.com)                             |
+| React Challenge                  | [View Project](https://react-challange-2.onrender.com)                     |
+| React Context API                | [View Project](https://react-context-api-zfhm.onrender.com)                |
+| React Essential Challenge        | [View Project](https://react-essential-challange.onrender.com)             |
+| React Essentials                 | [View Project](https://react-essentials-es2w.onrender.com)                 |
+| Tic Tac Toe                      | [View Project](https://react-tic-tac-toe-gqed.onrender.com)                |
+| React Query                      | [View Project](https://react-query-oyqn.onrender.com)                      |
+| React with TypeScript            | [View Project](https://react-with-typescript.onrender.com)                 |
+| Redux Advance                    | [View Project](https://redux-advance.onrender.com)                         |
+| Redux Beginning                  | [View Project](https://redux-begining.onrender.com)                        |
+| Routing Project                  | [View Project](https://routing-project-frontend.onrender.com)              |
+| Sending HTTP Requests            | [View Project](https://gleaming-druid-f1f457.netlify.app/)                 |
 
-React essential: https://react-essentials-es2w.onrender.com
-Tic Tac toe: https://react-tic-tac-toe-gqed.onrender.com
+---
 
-React query: https://react-query-oyqn.onrender.com
-
-React with typescript: https://react-with-typescript.onrender.com
-
-Redux Advance: https://redux-advance.onrender.com
-
-Redux Begining:https://redux-begining.onrender.com
-
-Routing project: https://routing-project-frontend.onrender.com
-
-Sending http request: https://gleaming-druid-f1f457.netlify.app/
+_Happy Coding!_ 💻
