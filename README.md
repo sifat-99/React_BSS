@@ -23,7 +23,3 @@ Below is a complete list of all the projects and their live deployment links:
 | Redux Beginning                  | [View Project](https://redux-begining.onrender.com)                        |
 | Routing Project                  | [View Project](https://routing-project-frontend.onrender.com)              |
 | Sending HTTP Requests            | [View Project](https://gleaming-druid-f1f457.netlify.app/)                 |
-
----
-
-_Happy Coding!_ 💻
