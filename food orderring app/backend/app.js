@@ -4,6 +4,8 @@ import fs from 'node:fs/promises';
 import bodyParser from 'body-parser';
 import express from 'express';
 
+
+
 const app = express();
 
 const FIREBASE_BASE = 'https://redux-advance-bss-default-rtdb.firebaseio.com';
@@ -25,6 +27,8 @@ app.get('/meals', async (req, res) => {
   const meals = await fs.readFile(path.join(process.cwd(), 'data', 'available-meals.json'), 'utf8');
   res.json(JSON.parse(meals));
 });
+
+const ORDERS_FILE = process.env.NODE_ENV === 'production' ? '/tmp/orders.json' : path.join(process.cwd(), 'data', 'orders.json');
 
 app.post('/orders', async (req, res) => {
   const orderData = req.body.order;
@@ -57,8 +61,15 @@ app.post('/orders', async (req, res) => {
     ...orderData,
     id: (Math.random() * 1000).toString(),
   };
-  const orders = await fs.readFile(ORDERS_FILE, 'utf8');
-  const allOrders = JSON.parse(orders);
+
+  let allOrders = [];
+  try {
+    const orders = await fs.readFile(ORDERS_FILE, 'utf8');
+    allOrders = JSON.parse(orders);
+  } catch (error) {
+    // File doesn't exist yet, we'll start with an empty array
+  }
+
   allOrders.push(newOrder);
   await fs.writeFile(ORDERS_FILE, JSON.stringify(allOrders));
   res.status(201).json({ message: 'Order created!' });
@@ -72,8 +83,9 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(3000);
-}
+const port = process.env.PORT || 3000;
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Server running on port ${port}`);
+});
 
 export default app;

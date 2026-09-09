@@ -1,1 +1,8 @@
-{"name": "deploy"}
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
