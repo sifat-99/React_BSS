@@ -16,3 +16,5 @@ React essential: https://react-essentials-es2w.onrender.com
 Tic Tac toe: https://react-tic-tac-toe-gqed.onrender.com
 
 React query: https://react-query-oyqn.onrender.com
+
+React with typescript: https://react-with-typescript.onrender.com
