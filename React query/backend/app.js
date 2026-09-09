@@ -6,21 +6,25 @@ import express from 'express';
 
 const app = express();
 
-const EVENTS_FILE = process.env.NODE_ENV === 'production' ? '/tmp/events.json' : path.join(process.cwd(), 'data', 'events.json');
+const FIREBASE_BASE = 'https://redux-advance-bss-default-rtdb.firebaseio.com';
+
 async function readEvents() {
   try {
-    const data = await fs.readFile(EVENTS_FILE, 'utf8');
-    return JSON.parse(data);
-  } catch (err) {
-    if (process.env.NODE_ENV === 'production' && err.code === 'ENOENT') {
-      const defaultData = await fs.readFile(path.join(process.cwd(), 'data', 'events.json'), 'utf8');
-      return JSON.parse(defaultData);
-    }
-    throw err;
+    const response = await fetch(`${FIREBASE_BASE}/query-events.json`);
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data || [];
+  } catch (error) {
+    return [];
   }
 }
+
 async function writeEvents(events) {
-  await fs.writeFile(EVENTS_FILE, JSON.stringify(events));
+  await fetch(`${FIREBASE_BASE}/query-events.json`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(events)
+  });
 }
 
 app.use(bodyParser.json());
@@ -64,8 +68,8 @@ app.get('/events', async (req, res) => {
 });
 
 app.get('/events/images', async (req, res) => {
-  const imagesFileContent = await fs.readFile(path.join(process.cwd(), 'data', 'images.json'));
-  const images = JSON.parse(imagesFileContent);
+  const response = await fetch(`${FIREBASE_BASE}/query-images.json`);
+  const images = (await response.json()) || [];
 
   res.json({ images });
 });

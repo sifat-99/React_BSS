@@ -5,7 +5,7 @@ import express from 'express';
 
 const app = express();
 
-const USER_PLACES_FILE = process.env.NODE_ENV === 'production' ? '/tmp/user-places.json' : './data/user-places.json';
+const FIREBASE_BASE = 'https://redux-advance-bss-default-rtdb.firebaseio.com';
 
 app.use(express.static('images'));
 app.use(bodyParser.json());
@@ -25,34 +25,25 @@ app.use((req, res, next) => {
 });
 
 app.get('/places', async (req, res) => {
-  const fileContent = await fs.readFile('./data/places.json');
-
-  const placesData = JSON.parse(fileContent);
-
-  res.status(200).json({ places: placesData });
+  const response = await fetch(`${FIREBASE_BASE}/http-places.json`);
+  const placesData = await response.json();
+  res.status(200).json({ places: placesData || [] });
 });
 
 app.get('/user-places', async (req, res) => {
-  let fileContent;
-  try {
-    fileContent = await fs.readFile(USER_PLACES_FILE);
-  } catch (err) {
-    if (process.env.NODE_ENV === 'production' && err.code === 'ENOENT') {
-      fileContent = await fs.readFile('./data/user-places.json');
-    } else {
-      throw err;
-    }
-  }
-
-  const places = JSON.parse(fileContent);
-
-  res.status(200).json({ places });
+  const response = await fetch(`${FIREBASE_BASE}/http-user-places.json`);
+  const places = await response.json();
+  res.status(200).json({ places: places || [] });
 });
 
 app.put('/user-places', async (req, res) => {
   const places = req.body.places;
 
-  await fs.writeFile(USER_PLACES_FILE, JSON.stringify(places));
+  await fetch(`${FIREBASE_BASE}/http-user-places.json`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(places)
+  });
 
   res.status(200).json({ message: 'User places updated!' });
 });

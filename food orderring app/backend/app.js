@@ -6,7 +6,7 @@ import express from 'express';
 
 const app = express();
 
-const ORDERS_FILE = process.env.NODE_ENV === 'production' ? '/tmp/orders.json' : path.join(process.cwd(), 'data', 'orders.json');
+const FIREBASE_BASE = 'https://redux-advance-bss-default-rtdb.firebaseio.com';
 
 app.use(bodyParser.json());
 app.use(express.static('public'));

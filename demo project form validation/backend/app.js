@@ -2,22 +2,14 @@ import fs from 'node:fs/promises';
 
 import express from 'express';
 
-const DB_FILE = process.env.NODE_ENV === 'production' ? '/tmp/db.json' : './db.json';
+const FIREBASE_BASE = 'https://redux-advance-bss-default-rtdb.firebaseio.com';
 
 async function loadOpinions() {
   try {
-    let dbFileData;
-    try {
-      dbFileData = await fs.readFile(DB_FILE);
-    } catch (err) {
-      if (process.env.NODE_ENV === 'production' && err.code === 'ENOENT') {
-        dbFileData = await fs.readFile('./db.json');
-      } else {
-        throw err;
-      }
-    }
-    const parsedData = JSON.parse(dbFileData);
-    return parsedData.opinions;
+    const response = await fetch(`${FIREBASE_BASE}/demo-orders.json`);
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data || [];
   } catch (error) {
     return [];
   }
@@ -27,8 +19,11 @@ async function saveOpinion(opinion) {
   const opinions = await loadOpinions();
   const newOpinion = { id: new Date().getTime(), votes: 0, ...opinion };
   opinions.unshift(newOpinion);
-  const dataToSave = { opinions };
-  await fs.writeFile(DB_FILE, JSON.stringify(dataToSave, null, 2));
+  await fetch(`${FIREBASE_BASE}/demo-orders.json`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(opinions)
+  });
   return newOpinion;
 }
 
@@ -39,7 +34,11 @@ async function upvoteOpinion(id) {
     return null;
   }
   opinion.votes++;
-  await fs.writeFile(DB_FILE, JSON.stringify({ opinions }, null, 2));
+  await fetch(`${FIREBASE_BASE}/demo-orders.json`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(opinions)
+  });
   return opinion;
 }
 
@@ -50,7 +49,11 @@ async function downvoteOpinion(id) {
     return null;
   }
   opinion.votes--;
-  await fs.writeFile(DB_FILE, JSON.stringify({ opinions }, null, 2));
+  await fetch(`${FIREBASE_BASE}/demo-orders.json`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(opinions)
+  });
   return opinion;
 }
 

@@ -1,4 +1,4 @@
-const FIREBASE_URL = 'https://redux-advance-bss-default-rtdb.firebaseio.com/auth-events.json';
+const FIREBASE_URL = 'https://redux-advance-bss-default-rtdb.firebaseio.com/routing-events.json';
 
 async function readData() {
   const response = await fetch(FIREBASE_URL);
