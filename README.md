@@ -24,3 +24,5 @@ Redux Advance: https://redux-advance.onrender.com
 Redux Begining:https://redux-begining.onrender.com
 
 Routing project: https://routing-project-frontend.onrender.com
+
+Sending http request: https://gleaming-druid-f1f457.netlify.app/

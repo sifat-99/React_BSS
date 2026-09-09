@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useState } from "react";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
-import Header from '../Header.jsx';
-import { fetchEvent, deleteEvent, queryClient } from '../../util/http.js';
-import ErrorBlock from '../UI/ErrorBlock.jsx';
-import Modal from '../UI/Modal.jsx';
+import Header from "../Header.jsx";
+import { fetchEvent, deleteEvent, queryClient } from "../../util/http.js";
+import ErrorBlock from "../UI/ErrorBlock.jsx";
+import Modal from "../UI/Modal.jsx";
 
 export default function EventDetails() {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -14,7 +14,7 @@ export default function EventDetails() {
   const navigate = useNavigate();
 
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ['events', params.id],
+    queryKey: ["events", params.id],
     queryFn: ({ signal }) => fetchEvent({ signal, id: params.id }),
   });
 
@@ -27,10 +27,10 @@ export default function EventDetails() {
     mutationFn: deleteEvent,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['events'],
-        refetchType: 'none',
+        queryKey: ["events"],
+        refetchType: "none",
       });
-      navigate('/events');
+      navigate("/events");
     },
   });
 
@@ -63,7 +63,7 @@ export default function EventDetails() {
           title="Failed to load event"
           message={
             error.info?.message ||
-            'Failed to fetch event data, please try again later.'
+            "Failed to fetch event data, please try again later."
           }
         />
       </div>
@@ -71,10 +71,10 @@ export default function EventDetails() {
   }
 
   if (data) {
-    const formattedDate = new Date(data.date).toLocaleDateString('en-US', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
+    const formattedDate = new Date(data.date).toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
     });
 
     content = (
@@ -87,7 +87,10 @@ export default function EventDetails() {
           </nav>
         </header>
         <div id="event-details-content">
-          <img src={`http://localhost:3000/${data.image}`} alt={data.title} />
+          <img
+            src={`${import.meta.env.VITE_BACKEND_URL}/${data.image}`}
+            alt={data.title}
+          />
           <div id="event-details-info">
             <div>
               <p id="event-details-location">{data.location}</p>
@@ -129,7 +132,7 @@ export default function EventDetails() {
               title="Failed to delete event"
               message={
                 deleteError.info?.message ||
-                'Failed to delete event, please try again later.'
+                "Failed to delete event, please try again later."
               }
             />
           )}
