@@ -14,3 +14,5 @@ React essential challange: https://react-essential-challange.onrender.com
 
 React essential: https://react-essentials-es2w.onrender.com
 Tic Tac toe: https://react-tic-tac-toe-gqed.onrender.com
+
+React query: https://react-query-oyqn.onrender.com
