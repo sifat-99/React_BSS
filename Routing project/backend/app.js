@@ -24,7 +24,8 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message });
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(8080);
-}
+const port = process.env.PORT || 8080;
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Server running on port ${port}`);
+});
 module.exports = app;

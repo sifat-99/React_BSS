@@ -21,9 +21,9 @@ export async function action({ request, params }) {
         date: data.get('date'),
         description: data.get('description')
     }
-    let url = `${process.env.REACT_APP_BACKEND_URL}/events`
+    let url = `${import.meta.env.VITE_BACKEND_URL}/events`
     if (method === 'PATCH') {
-        url = `${process.env.REACT_APP_BACKEND_URL}/events/` + params.eventId
+        url = `${import.meta.env.VITE_BACKEND_URL}/events/` + params.eventId
     }
 
     const response = await fetch(url, {

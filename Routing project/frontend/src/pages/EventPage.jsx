@@ -16,7 +16,7 @@ function EventsPage() {
 }
 
 export async function loadEvents() {
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/events`);
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/events`);
     if (!response.ok) {
         throw new Response(JSON.stringify({ message: 'Failed to fetch events' }), { status: 500 })
         // return json()
