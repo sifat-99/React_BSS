@@ -2,11 +2,9 @@ import React from 'react'
 
 const PageWithId = ({ params }) => {
     return (
-        <main>
-            <header>
-                <h1>{params.id}</h1>
-            </header>
-        </main>
+        <div>
+            <h1>PageWithId {params.id}</h1>
+        </div>
     )
 }
 
